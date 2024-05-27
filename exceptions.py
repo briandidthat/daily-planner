@@ -1,25 +1,21 @@
 from typing import Dict
 
 
-class TodoistException(Exception):
-    """Custom exception class for the todoist API."""
+class DailyPlannerException(Exception):
+    """Base exception class"""
 
-    def __init__(self, e: Exception):
-        super().__init__(message=str(e))
-        self.message = str(e)
-        self.type = type(e).__name__
+    def __init__(self, message: str, type: str):
+        self.message = message
+        self.type = type
+        super().__init__(message)
 
-    def serialize(self) -> Dict[str, str]:
+    def serialize(self):
         return dict(message=self.message, type=self.type)
 
 
-class GoogleException(Exception):
-    """Custom exception class for the google gemini bot."""
+class GoogleException(DailyPlannerException):
+    pass
 
-    def __init__(self, e: Exception):
-        super().__init__(message=str(e))
-        self.message = str(e)
-        self.type = type(e).__name__
 
-    def serialize(self) -> Dict[str, str]:
-        return dict(message=self.message, type=self.type)
+class TodoistException(DailyPlannerException):
+    pass
