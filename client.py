@@ -1,3 +1,5 @@
+import os
+import threading
 from typing import List, Dict
 
 from todoist_api_python.api_async import TodoistAPIAsync
@@ -7,6 +9,7 @@ from exceptions import TodoistException
 
 
 class TodoistClient:
+
     def __init__(self, api_key: str):
         self.api = TodoistAPIAsync(token=api_key)
 
@@ -33,3 +36,7 @@ class TodoistClient:
             return projects
         except Exception as e:
             raise TodoistException(message=str(e), type=type(e).__name__)
+
+
+TODOIST_API_KEY = os.getenv("TODOIST_API_KEY")
+todoist_client = TodoistClient(api_key=TODOIST_API_KEY)
