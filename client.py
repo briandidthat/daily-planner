@@ -1,11 +1,24 @@
 import os
-import threading
+from enum import Enum
 from typing import List, Dict
 
 from todoist_api_python.api_async import TodoistAPIAsync
 from todoist_api_python.models import Task, Project
 
 from exceptions import TodoistException
+
+
+class Params(Enum):
+    PROJECT_ID = "project_id"
+    SECTION_ID = "section_id"
+    LABEL = "label"
+    FILTER = "filter"
+
+    def validate_params(self, params: List[str]):
+        for param in params:
+            if not hasattr(param):
+                raise ValueError(f"Invalid param. {param}")
+        return True
 
 
 class TodoistClient:
