@@ -1,3 +1,5 @@
+import os
+from enum import Enum
 from typing import List, Dict
 
 from todoist_api_python.api_async import TodoistAPIAsync
@@ -6,7 +8,21 @@ from todoist_api_python.models import Task, Project
 from exceptions import TodoistException
 
 
+class Params(Enum):
+    PROJECT_ID = "project_id"
+    SECTION_ID = "section_id"
+    LABEL = "label"
+    FILTER = "filter"
+
+    def validate_params(self, params: List[str]):
+        for param in params:
+            if not hasattr(param):
+                raise ValueError(f"Invalid param. {param}")
+        return True
+
+
 class TodoistClient:
+
     def __init__(self, api_key: str):
         self.api = TodoistAPIAsync(token=api_key)
 
@@ -33,3 +49,7 @@ class TodoistClient:
             return projects
         except Exception as e:
             raise TodoistException(message=str(e), type=type(e).__name__)
+
+
+TODOIST_API_KEY = os.getenv("TODOIST_API_KEY")
+todoist_client = TodoistClient(api_key=TODOIST_API_KEY)

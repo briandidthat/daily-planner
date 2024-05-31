@@ -1,7 +1,7 @@
 from typing import Dict
 
 
-class DailyPlannerException(Exception):
+class BaseException(Exception):
     """Base exception class"""
 
     def __init__(self, message: str, type: str):
@@ -9,13 +9,23 @@ class DailyPlannerException(Exception):
         self.type = type
         super().__init__(message)
 
-    def serialize(self):
+    def serialize(self) -> Dict[str, str]:
         return dict(message=self.message, type=self.type)
 
 
-class GoogleException(DailyPlannerException):
+class GoogleException(BaseException):
+    """Exceptions for Google Gemini API"""
+
     pass
 
 
-class TodoistException(DailyPlannerException):
+class TodoistException(BaseException):
+    """Exceptions for Todoist API"""
+
+    pass
+
+
+class ApiException(BaseException):
+    """Exceptions for Fast API"""
+
     pass
